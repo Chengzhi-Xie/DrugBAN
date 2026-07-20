@@ -1,0 +1,51 @@
+name: Pure-formula SCJKE cluster benchmark
+
+on:
+  push:
+    branches:
+      - agent/pure-formula-scjke-cluster
+    paths:
+      - 'scjke_formula/**'
+      - '.github/workflows/pure_formula_scjke_cluster.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+          cache-dependency-path: scjke_formula/requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r scjke_formula/requirements.txt
+      - name: Syntax check
+        run: |
+          python -m py_compile scjke_formula/formula_search.py scjke_formula/staged_search.py
+      - name: Run source-only pure-formula search and cluster evaluation
+        run: |
+          python scjke_formula/staged_search.py \
+            --repo-root . \
+            --output-dir scjke_formula/results
+      - name: Print final benchmark
+        if: always()
+        run: |
+          if [ -f scjke_formula/results/PURE_FORMULA_BENCHMARK_RESULTS.md ]; then
+            cat scjke_formula/results/PURE_FORMULA_BENCHMARK_RESULTS.md
+          fi
+      - name: Upload benchmark artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pure-formula-scjke-cluster-results
+          path: scjke_formula/results
+          if-no-files-found: warn
+          retention-days: 14
