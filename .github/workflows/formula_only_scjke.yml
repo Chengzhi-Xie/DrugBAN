@@ -1,0 +1,44 @@
+name: Formula-only SCJKE cluster benchmark
+
+on:
+  push:
+    branches:
+      - agent/formula-only-scjke-cluster
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: pip
+          cache-dependency-path: formula_only_scjke/requirements.txt
+      - name: Install dependencies
+        run: pip install -r formula_only_scjke/requirements.txt
+      - name: Decode benchmark script
+        run: base64 -d formula_only_scjke/formula_only_scjke_search.py.gz.b64 | gzip -d > formula_only_scjke/formula_only_scjke_search.py
+      - name: Validate no fitted predictive model
+        run: |
+          ! grep -E "LogisticRegression|RandomForest|XGBoost|CatBoost|torch|tensorflow|\.fit\(" formula_only_scjke/formula_only_scjke_search.py
+          python -m py_compile formula_only_scjke/formula_only_scjke_search.py
+      - name: Run formula-only search
+        run: python formula_only_scjke/formula_only_scjke_search.py --repo-root . --output-dir formula_only_scjke/results
+      - name: Print report
+        if: always()
+        run: |
+          test -f formula_only_scjke/results/README_FORMULA_ONLY_CN.md && cat formula_only_scjke/results/README_FORMULA_ONLY_CN.md || true
+          test -f formula_only_scjke/results/formula_only_results.json && cat formula_only_scjke/results/formula_only_results.json || true
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: formula-only-scjke-results
+          path: formula_only_scjke/results
+          if-no-files-found: warn
