@@ -26,7 +26,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r formula_only_scjke/requirements.txt
       - name: Decode benchmark script
-        run: cat formula_only_scjke/payload_00.b64 formula_only_scjke/payload_01.b64 | base64 -d | gzip -d > formula_only_scjke/formula_only_scjke_search.py
+        run: cat formula_only_scjke/payload_00.b64 formula_only_scjke/payload_01a.b64 formula_only_scjke/payload_01b.b64 formula_only_scjke/payload_01c.b64 | base64 -d | gzip -d > formula_only_scjke/formula_only_scjke_search.py
       - name: Validate no fitted predictive model
         run: |
           ! grep -E "LogisticRegression|RandomForest|XGBoost|CatBoost|torch|tensorflow|\.fit\(" formula_only_scjke/formula_only_scjke_search.py
