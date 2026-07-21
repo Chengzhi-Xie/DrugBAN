@@ -27,6 +27,7 @@ jobs:
         run: pip install -r formula_only_scjke/requirements.txt
       - name: Validate formula-only implementation
         run: |
+          # The benchmark must remain free of fitted predictive models.
           ! grep -E "LogisticRegression|RandomForest|XGBoost|CatBoost|torch|tensorflow|\.fit\(" mslpcc/benchmark_mslpcc.py
           python -m py_compile mslpcc/benchmark_mslpcc.py
       - name: Run MS-LPCC benchmark
