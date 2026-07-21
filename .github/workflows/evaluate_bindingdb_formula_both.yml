@@ -1,0 +1,37 @@
+name: Evaluate BindingDB formula on both datasets
+
+on:
+  push:
+    branches:
+      - agent/formula-only-scjke-cluster
+    paths:
+      - formula_only_scjke/evaluate_bindingdb_config_on_both.py
+      - .github/workflows/evaluate_bindingdb_formula_both.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: pip
+          cache-dependency-path: formula_only_scjke/requirements.txt
+      - name: Install dependencies
+        run: pip install -r formula_only_scjke/requirements.txt
+      - name: Validate formula-only implementation
+        run: |
+          ! grep -E "LogisticRegression|RandomForest|XGBoost|CatBoost|torch|tensorflow|\.fit\(" formula_only_scjke/evaluate_bindingdb_config_on_both.py
+          python -m py_compile formula_only_scjke/evaluate_bindingdb_config_on_both.py
+      - name: Evaluate fixed BindingDB configuration on both datasets
+        run: python formula_only_scjke/evaluate_bindingdb_config_on_both.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bindingdb-formula-on-both-results
+          path: formula_only_scjke/results/bindingdb_config_on_both.json
