@@ -1,0 +1,62 @@
+{
+  "bindingdb": {
+    "source_n": 14928,
+    "query_n": 1779,
+    "source_unique_drugs": 7476,
+    "source_unique_proteins": 1231,
+    "pcm_weight": 0.2916331725616292,
+    "top_k": 200,
+    "test_labels_used_for_fit": false,
+    "pcm": {
+      "n": 1779,
+      "positive_rate": 0.46430578976953346,
+      "auroc": 0.6453076686594391,
+      "auprc": 0.6024220729786922,
+      "brier": 0.23715292028271792
+    },
+    "scjke": {
+      "n": 1779,
+      "positive_rate": 0.46430578976953346,
+      "auroc": 0.5837186760808863,
+      "auprc": 0.5311130430626643,
+      "brier": 0.24718884307033637
+    },
+    "adaptive": {
+      "n": 1779,
+      "positive_rate": 0.46430578976953346,
+      "auroc": 0.6535053062966699,
+      "auprc": 0.612958932974476,
+      "brier": 0.24113004907542324
+    }
+  },
+  "biosnap": {
+    "source_n": 9765,
+    "query_n": 907,
+    "source_unique_drugs": 2541,
+    "source_unique_proteins": 1279,
+    "pcm_weight": 0.19559651817716334,
+    "top_k": 200,
+    "test_labels_used_for_fit": false,
+    "pcm": {
+      "n": 907,
+      "positive_rate": 0.5016538037486218,
+      "auroc": 0.634885247495867,
+      "auprc": 0.6183562830482077,
+      "brier": 0.23947162287422905
+    },
+    "scjke": {
+      "n": 907,
+      "positive_rate": 0.5016538037486218,
+      "auroc": 0.6854468540309248,
+      "auprc": 0.7386265955225673,
+      "brier": 0.2373822097719076
+    },
+    "adaptive": {
+      "n": 907,
+      "positive_rate": 0.5016538037486218,
+      "auroc": 0.6854225420597102,
+      "auprc": 0.7334126016716865,
+      "brier": 0.2364986836152105
+    }
+  }
+}
