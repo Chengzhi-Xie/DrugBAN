@@ -7,6 +7,12 @@ on:
     paths:
       - formula_only_scjke/evaluate_bindingdb_config_on_both.py
       - .github/workflows/evaluate_bindingdb_formula_both.yml
+  pull_request:
+    branches:
+      - main
+    paths:
+      - formula_only_scjke/evaluate_bindingdb_config_on_both.py
+      - .github/workflows/evaluate_bindingdb_formula_both.yml
   workflow_dispatch:
 
 permissions:
