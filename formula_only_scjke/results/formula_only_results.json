@@ -1,0 +1,60 @@
+{
+  "method_constraint": "formula-only; no ML/neural fitting; labels only partition evidence banks",
+  "candidate_count": 6912,
+  "best_common_exploratory": {
+    "warning": "Selected using target labels; exploratory upper bound only.",
+    "config_name": "tri__m2__harmonic__kmulti__none__none",
+    "config": {
+      "protein_kernel": "tri",
+      "drug_kernel": "m2",
+      "joint_rule": "harmonic",
+      "k": "multi",
+      "degree_mode": "none",
+      "shrink": "none"
+    },
+    "bindingdb": {"auroc": 0.5855537121, "auprc": 0.5467677831},
+    "biosnap": {"auroc": 0.7046387241, "auprc": 0.7562749260}
+  },
+  "best_per_dataset_exploratory": {
+    "warning": "Selected using each target dataset labels; exploratory upper bound only.",
+    "bindingdb": {
+      "config_name": "gtri__dmean__p15_d05__k200__none__support",
+      "config": {
+        "protein_kernel": "gtri",
+        "drug_kernel": "dmean",
+        "joint_rule": "p15_d05",
+        "k": "200",
+        "degree_mode": "none",
+        "shrink": "support"
+      },
+      "auroc": 0.6062186697,
+      "auprc": 0.5732921110
+    },
+    "biosnap": {
+      "config_name": "tri__m2__minimum__k500__none__support",
+      "config": {
+        "protein_kernel": "tri",
+        "drug_kernel": "m2",
+        "joint_rule": "minimum",
+        "k": "500",
+        "degree_mode": "none",
+        "shrink": "support"
+      },
+      "auroc": 0.7184722357,
+      "auprc": 0.7676579758
+    }
+  },
+  "strict_source_only_common": {
+    "config_name": "tri__m3__p2_d1__k20__none__support",
+    "config": {
+      "protein_kernel": "tri",
+      "drug_kernel": "m3",
+      "joint_rule": "p2_d1",
+      "k": "20",
+      "degree_mode": "none",
+      "shrink": "support"
+    },
+    "bindingdb": {"auroc": 0.5519367919, "auprc": 0.5183816025},
+    "biosnap": {"auroc": 0.6663498006, "auprc": 0.7130370474}
+  }
+}

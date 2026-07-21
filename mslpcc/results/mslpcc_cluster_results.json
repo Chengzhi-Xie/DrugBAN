@@ -1,0 +1,115 @@
+{
+  "method": "Multi-Scale Local Physicochemical Complementarity (MS-LPCC)",
+  "constraints": {
+    "predictive_model_fit": false,
+    "neural_network": false,
+    "protein_structure": false,
+    "docking": false,
+    "target_labels_used_to_compute_scores": false,
+    "source_labels_used_only_for_formula_selection": true,
+    "target_labels_used_for_oracle_selection": true
+  },
+  "bindingdb": {
+    "dataset": "bindingdb",
+    "n_source": 14928,
+    "n_target": 1779,
+    "candidate_count": 1008,
+    "source_selected": {
+      "formula": "all_geom__mean__L31",
+      "auroc": 0.5283728711930465,
+      "auprc": 0.4891561460994842,
+      "mean_metric": 0.5087645086462653
+    },
+    "oracle_best_mean": {
+      "formula": "charge__top05__scale_mean__inverse",
+      "auroc": 0.5771166114906665,
+      "auprc": 0.5166263653017014,
+      "mean_metric": 0.5468714883961839
+    },
+    "oracle_best_min_metric": {
+      "formula": "charge__top20__L31",
+      "auroc": 0.5682024904151285,
+      "auprc": 0.5216193522256534,
+      "mean_metric": 0.5449109213203909
+    }
+  },
+  "biosnap": {
+    "dataset": "biosnap",
+    "n_source": 9765,
+    "n_target": 907,
+    "candidate_count": 1008,
+    "source_selected": {
+      "formula": "charge__top05__scale_min",
+      "auroc": 0.5900758533501896,
+      "auprc": 0.5621550359387898,
+      "mean_metric": 0.5761154446444897
+    },
+    "oracle_best_mean": {
+      "formula": "charge__top05__scale_mean",
+      "auroc": 0.5930954001750463,
+      "auprc": 0.5627253875346023,
+      "mean_metric": 0.5779103938548242
+    },
+    "oracle_best_min_metric": {
+      "formula": "charge__top05__scale_mean",
+      "auroc": 0.5930954001750463,
+      "auprc": 0.5627253875346023,
+      "mean_metric": 0.5779103938548242
+    }
+  },
+  "common_source_selected": {
+    "formula": "charge__mean__scale_max__inverse",
+    "bindingdb": {
+      "formula": "charge__mean__scale_max__inverse",
+      "auroc": 0.4892800611805716,
+      "auprc": 0.46640770505161255,
+      "mean_metric": 0.47784388311609205
+    },
+    "biosnap": {
+      "formula": "charge__mean__scale_max__inverse",
+      "auroc": 0.49471700865506174,
+      "auprc": 0.4809645257229957,
+      "mean_metric": 0.4878407671890287
+    },
+    "four_metric_mean": 0.48284232515256037,
+    "worst_metric": 0.46640770505161255
+  },
+  "common_oracle_best_mean": {
+    "formula": "charge__top_multiscale_pool__scale_mean",
+    "bindingdb": {
+      "formula": "charge__top_multiscale_pool__scale_mean",
+      "auroc": 0.5458911453318055,
+      "auprc": 0.5138763419883937,
+      "mean_metric": 0.5298837436600996
+    },
+    "biosnap": {
+      "formula": "charge__top_multiscale_pool__scale_mean",
+      "auroc": 0.5636268598657979,
+      "auprc": 0.524319190863242,
+      "mean_metric": 0.5439730253645199
+    },
+    "four_metric_mean": 0.5369283845123097,
+    "worst_metric": 0.5138763419883937
+  },
+  "common_oracle_best_worst_metric": {
+    "formula": "charge__top_multiscale_pool__scale_min",
+    "bindingdb": {
+      "formula": "charge__top_multiscale_pool__scale_min",
+      "auroc": 0.5450831959226503,
+      "auprc": 0.5166917370196455,
+      "mean_metric": 0.5308874664711479
+    },
+    "biosnap": {
+      "formula": "charge__top_multiscale_pool__scale_min",
+      "auroc": 0.55959107264417,
+      "auprc": 0.521423805434688,
+      "mean_metric": 0.540507439039429
+    },
+    "four_metric_mean": 0.5356974527552885,
+    "worst_metric": 0.5166917370196455
+  },
+  "interpretation": {
+    "source_selected": "Configuration chosen only from source cold-both validation labels; target labels are used only for final AUROC/AUPRC evaluation.",
+    "oracle": "Exploratory upper bound chosen after comparing target labels; not an unbiased test result."
+  }
+}

@@ -1,0 +1,44 @@
+name: Formula-only SCJKE cluster benchmark
+
+on:
+  push:
+    branches:
+      - agent/formula-only-scjke-cluster
+      - agent/mslpcc-cluster-benchmark
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: pip
+          cache-dependency-path: formula_only_scjke/requirements.txt
+      - name: Install dependencies
+        run: pip install -r formula_only_scjke/requirements.txt
+      - name: Validate no fitted predictive model
+        run: |
+          ! grep -E "LogisticRegression|RandomForest|XGBoost|CatBoost|torch|tensorflow|\.fit\(" mslpcc/benchmark_mslpcc.py
+          python -m py_compile mslpcc/benchmark_mslpcc.py
+      - name: Run MS-LPCC search
+        run: python mslpcc/benchmark_mslpcc.py
+      - name: Print report
+        if: always()
+        run: test -f mslpcc/results/mslpcc_cluster_results.json && cat mslpcc/results/mslpcc_cluster_results.json || true
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mslpcc-cluster-results
+          path: mslpcc/results
+          if-no-files-found: warn
