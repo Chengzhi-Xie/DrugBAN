@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - agent/formula-only-scjke-cluster
+      - agent/mslpcc-cluster-benchmark
   pull_request:
     branches:
       - main
@@ -29,19 +30,24 @@ jobs:
         run: cat formula_only_scjke/payload_00.b64 formula_only_scjke/payload_01a.b64 formula_only_scjke/payload_01b.b64 formula_only_scjke/payload_01c.b64 | base64 -d | gzip -d > formula_only_scjke/formula_only_scjke_search.py
       - name: Validate no fitted predictive model
         run: |
-          ! grep -E "LogisticRegression|RandomForest|XGBoost|CatBoost|torch|tensorflow|\.fit\(" formula_only_scjke/formula_only_scjke_search.py
-          python -m py_compile formula_only_scjke/formula_only_scjke_search.py
+          ! grep -E "LogisticRegression|RandomForest|XGBoost|CatBoost|torch|tensorflow|\.fit\(" formula_only_scjke/formula_only_scjke_search.py mslpcc/benchmark_mslpcc.py
+          python -m py_compile formula_only_scjke/formula_only_scjke_search.py mslpcc/benchmark_mslpcc.py
       - name: Run formula-only search
         run: python formula_only_scjke/formula_only_scjke_search.py --repo-root . --output-dir formula_only_scjke/results
+      - name: Run MS-LPCC search
+        run: python mslpcc/benchmark_mslpcc.py
       - name: Print report
         if: always()
         run: |
           test -f formula_only_scjke/results/README_FORMULA_ONLY_CN.md && cat formula_only_scjke/results/README_FORMULA_ONLY_CN.md || true
           test -f formula_only_scjke/results/formula_only_results.json && cat formula_only_scjke/results/formula_only_results.json || true
+          test -f mslpcc/results/mslpcc_cluster_results.json && cat mslpcc/results/mslpcc_cluster_results.json || true
       - name: Upload results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: formula-only-scjke-results
-          path: formula_only_scjke/results
+          name: formula-only-and-mslpcc-results
+          path: |
+            formula_only_scjke/results
+            mslpcc/results
           if-no-files-found: warn
